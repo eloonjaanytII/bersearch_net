@@ -1,0 +1,13 @@
+CREATE TABLE movies (
+    id SERIAL PRIMARY KEY,
+    "kinopoiskId" INT UNIQUE,
+    "nameRu" TEXT,
+    "nameEn" TEXT,
+    "nameOriginal" TEXT,
+    "ratingKinopoisk" NUMERIC(3,1),
+    "ratingImdb" NUMERIC(3,1),
+    year TEXT,
+    type TEXT,
+    "posterUrl" TEXT,
+    "posterUrlPreview" TEXT
+);
