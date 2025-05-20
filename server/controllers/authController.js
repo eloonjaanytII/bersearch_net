@@ -1,8 +1,10 @@
-const {User, Role} = require('../models/User');
+const {User, UserPersonal} = require('../models/index');
 const bcrypt = require("bcryptjs");
 const {validationResult} = require('express-validator');
 const jwt = require("jsonwebtoken");
 const {secret} = require('../config');
+const fs = require('fs');
+const path = require('path');
 
 const generateAccesToken = (id, role) => {
     const payload = {
@@ -81,6 +83,17 @@ class authController {
             res.status(400).json({message: 'Get users error'})
         }
     }
+
+    getIcons(req, res) {
+        const iconsDir = path.join(process.cwd(), 'public/icon-animals');
+        fs.readdir(iconsDir, (err, files) => {
+        if (err) {
+            return res.status(500).json({ error: 'Ошибка при чтении папки иконок' });
+        }
+        res.json(files);
+    });
+    }
+
 
 }
 

@@ -8,6 +8,8 @@ import Actor from './components/pages/actors/Actor';
 import ActorDetail from './components/pages/actorDetail/ActorDetail';
 import MovieListTop from './components/pages/movieListTop/MovieListTop';
 import MovieMap from './components/pages/globalMap/MovieMap';
+import Login from './components/pages/authorization/login/Login';
+import SetupProfile from './components/pages/authorization/setupProfile/SetupProfile';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -23,6 +25,19 @@ const App = () => {
           path: `${item.url}/:id`,
           element: <MovieDetail />
         })),
+        {
+          path: 'authorization',
+          children: [
+            {
+              path: 'login',
+              element: <Login />
+            },
+            {
+              path: 'setup-profile',
+              element: <SetupProfile />
+            },
+          ]
+        },
         {
           path: 'movies',
           element: <Movies />,

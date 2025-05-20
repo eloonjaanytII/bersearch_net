@@ -1,40 +1,27 @@
 const { Sequelize, DataTypes } = require('sequelize');
-
-const sequelize = new Sequelize('bersearch', 'postgres', 'eb2fae135', {
-  host: 'localhost',
-  port: 5432,   
-  dialect: 'postgres',
-});
+const {sequelize} = require('.././db.js')
 
 const User = sequelize.define(
   'User',
   {
     username: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false
+      type: DataTypes.STRING(50),
+      allowNull: false,
+      unique: true
+    },
+    email: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+      unique: true
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
   },
-);
-
-const Role = sequelize.define(
-  'Role',
   {
-    name: {
-        type: DataTypes.STRING, 
-        unique: true,
-        allowNull: false,
-        defaultValue: 'USER',
-    }
-  },
-);
+    timestamps: true,
+  }
+)
 
-Role.hasMany(User, {foreignKey: 'roleId'});
-User.belongsTo(Role, {foreignKey: 'roleId'});
-
-
-module.exports = {sequelize, User, Role}
+module.exports = {User};

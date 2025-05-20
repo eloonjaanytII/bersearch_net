@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/auth/',
+    baseUrl: 'http://localhost:5000/auth',
     prepareHeaders: headers => {
       headers.set('Content-Type', 'application/json');
       return headers;
@@ -14,7 +14,10 @@ export const authApi = createApi({
     getUsers: builder.query({
       query: () => `users`
     }),
+    getProfileIcons: builder.query({
+      query: () => `icons`
+    })
   }),
 });
 
-export const { useGetUsersQuery } = authApi;
+export const { useGetUsersQuery, useGetProfileIconsQuery } = authApi;
