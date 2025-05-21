@@ -1,56 +1,55 @@
 const {User, UserPersonal} = require('../models/index');
 const bcrypt = require("bcryptjs");
 const {validationResult} = require('express-validator');
-const jwt = require("jsonwebtoken");
-const {secret} = require('../config');
-const fs = require('fs');
-const path = require('path');
+const generateAccessToken = require('../utils/generateToken');
 
-const generateAccesToken = (id, role) => {
-    const payload = {
-        id,
-        role
-    }
-    return jwt.sign(payload, secret, {expiresIn: "24h"})
-}
-
-
-class authController {
-    async registration(req, res) {
+const registerUser = async (req, res) => {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(400).json({message: "Ошибка при регистрации", errors})
             }
-            const {username, password} = req.body;
-            const candidate = await User.findOne({where: {username}} )
+            const {email, password} = req.body;
+            const candidate = await User.findOne({where: {email}} )
             if (candidate) {
                 return res.status(400).json({message: 'Пользователь уже существует'})
             }
 
             const salt = bcrypt.genSaltSync(7);
             const hashPassword = bcrypt.hashSync(password, salt);
-            const userRole = await Role.findOne({ where: { name: "USER" } })
-
-            if (!userRole) {
-                return res.status(500).json({ message: "Роль не найдена!" });
-            }
 
             const user = await User.create({
-                username, 
-                password: hashPassword, 
-                roleId: userRole.id});
+                email,
+                password: hashPassword
+            });
 
-            return res.json('Пользователь успешно зарегистрирован')
+            await UserPersonal.create({ userId: user.id });
+
+            const token = generateAccessToken(user.id);
+            return res.status(201).json({ token, userId: user.id });
 
         }catch(e){
-
             console.log(e)
             res.status(400).json({message: 'Registration error'})
         }
-    }
+}
 
-    async login(req, res) {
+const updateUserDetails = async (req, res) => {
+        try {
+            const {username, gender, avatar, city, color, status } = req.body;
+            const userId = req.user.id;
+
+            await User.update({username}, {where: {id: userId}});
+            await UserPersonal.update({gender, avatar, city, color, status}, {where : {userId}});
+
+            res.json({message: 'Данные обновлены'})
+
+        }catch(e){
+            res.status(500).json({ message: 'Ошибка обновления', error });
+        }
+}
+
+const signIn = async (req, res) => {
         try {
 
             const {username, password} = req.body;
@@ -64,37 +63,14 @@ class authController {
                 res.status(400).json({message: 'Пароль неверный'})
             }
 
-            const token = generateAccesToken(user.id, user.roleId)  
-            return res.json({token})
+            const token = generateAccessToken(user.id)  
+            return res.json({token, message: 'Вы вошли'})
 
         }catch(e){
             console.log(e)
             res.status(400).json({message: 'Login error'})
         }
-    }
-
-    async getUsers(req, res) {
-        try {
-
-            const users = await User.findAll();
-            res.json(users)
-        }catch(e){
-            console.log(e)
-            res.status(400).json({message: 'Get users error'})
-        }
-    }
-
-    getIcons(req, res) {
-        const iconsDir = path.join(process.cwd(), 'public/icon-animals');
-        fs.readdir(iconsDir, (err, files) => {
-        if (err) {
-            return res.status(500).json({ error: 'Ошибка при чтении папки иконок' });
-        }
-        res.json(files);
-    });
-    }
-
-
 }
 
-module.exports = new authController();
+
+module.exports = {registerUser, updateUserDetails, signIn};

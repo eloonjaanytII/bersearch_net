@@ -1,19 +1,24 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const {sequelize} = require('.././db.js')
+const {sequelize} = require('../db.js');
 
 const UserPersonal = sequelize.define(
   'UserPersonal',
   {
     city: DataTypes.STRING,
     status: DataTypes.STRING(100),
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      unique: true
+    },
     gender: {
         type: DataTypes.ENUM('male', 'female'),
-        allowNull: false,
+        allowNull: true,
         defaultValue: 'male'
     },
     color: {
         type: DataTypes.STRING(7),
-        allowNull: false,
+        allowNull: true,
         defaultValue: '#000000',  // по умолчанию чёрный
         validate: {
             is: /^#([0-9A-Fa-f]{6})$/  // валидация HEX-кода
@@ -21,7 +26,7 @@ const UserPersonal = sequelize.define(
     },
     avatar: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
   },
   {

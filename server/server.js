@@ -1,5 +1,5 @@
 const express = require('express');
-const {sequelize} = require('./models/User.js')
+const {sequelize} = require('./db.js')
 const PORT = process.env.PORT || 5000;
 const authRouter = require('./routes/authRouter.js')
 const cors = require('cors');
@@ -8,7 +8,6 @@ const app = express();
 
 app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json())
-app.use(express.static('public'));
 
 app.use('/auth', authRouter)
 
