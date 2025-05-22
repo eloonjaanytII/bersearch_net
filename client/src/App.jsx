@@ -7,9 +7,10 @@ import MovieDetail from './components/pages/movieDetail/MovieDetail';
 import Actor from './components/pages/actors/Actor';
 import ActorDetail from './components/pages/actorDetail/ActorDetail';
 import MovieListTop from './components/pages/movieListTop/MovieListTop';
-import MovieMap from './components/pages/globalMap/MovieMap';
-import Login from './components/pages/authorization/login/Login';
-import SetupProfile from './components/pages/authorization/setupProfile/SetupProfile';
+import Login from './components/pages/registration/Login';
+import AvatarSelect from './components/pages/registration/AvatarSelect';
+import PersonalSelect from './components/pages/registration/PersonalSelect';
+import PrivateRouter from './components/ui/privateRouter/PrivateRouter';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -17,14 +18,35 @@ const App = () => {
       path: '/',
       element: <Layout />,
       children: [
-        ...TOP_LISTS.map(elem => ({
-          path: elem.url,
-          element: <MovieListTop />,
-        })),
-        ...TOP_LISTS.map(item => ({
-          path: `${item.url}/:id`,
-          element: <MovieDetail />
-        })),
+        {
+          path: '',
+          element: <Movies />
+        },
+        {
+          element: <PrivateRouter />,
+          children: [
+            ...TOP_LISTS.map(elem => ({
+            path: elem.url,
+            element: <MovieListTop />,
+            })),
+            ...TOP_LISTS.map(item => ({
+            path: `${item.url}/:id`,
+            element: <MovieDetail />})),
+            {
+              path: 'movies/:id',
+              element: <MovieDetail />
+            },
+            {
+              path: 'actors',
+              element: <Actor />,
+              children: [
+                {
+                  path: ':id',
+                  element: <ActorDetail />
+                }]
+            },
+          ]
+        },
         {
           path: 'authorization',
           children: [
@@ -33,33 +55,15 @@ const App = () => {
               element: <Login />
             },
             {
-              path: 'setup-profile',
-              element: <SetupProfile />
+              path: 'avatar-select',
+              element: <AvatarSelect />
             },
-          ]
-        },
-        {
-          path: 'movies',
-          element: <Movies />,
-        },
-        {
-          path: 'movies/:id',
-          element: <MovieDetail />
-        },
-        {
-          path: 'actors',
-          element: <Actor />,
-          children: [
             {
-              path: ':id',
-              element: <ActorDetail />
+              path: 'personal-select',
+              element: <PersonalSelect />
             }
           ]
-        },
-        {
-          path: 'movie-map',
-          element: <MovieMap />
-        },
+        }
       ]
     },
     {

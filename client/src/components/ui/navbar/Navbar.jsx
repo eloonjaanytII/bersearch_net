@@ -21,7 +21,7 @@ const Navbar = () => {
         <div className='text-2xl font-bold'>
             {title}
         </div>}
-        <Link to={`/movies`}>
+        <Link to={""}>
             <button className="btn btn-dash btn-accent text-xl">Bersearch</button>
         </Link>
         <Link to={`/movie-map`}>
