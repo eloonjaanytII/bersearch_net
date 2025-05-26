@@ -1,12 +1,19 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import SearchInput from '../searchInput/SearchInput'
 import ThemeController from '../themeController/ThemeController'
 
 const Navbar = () => {
 
   const title = useSelector(state => state.navbarTitle.title)
+  const navigate = useNavigate();
+
+  const handlerLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/authorization/register');
+  } 
+
   return (
     <div className="navbar bg-accent-content shadow-sm flex justify-between">
         <div className="">
@@ -24,11 +31,11 @@ const Navbar = () => {
         <Link to={""}>
             <button className="btn btn-dash btn-accent text-xl">Bersearch</button>
         </Link>
-        <Link to={`/movie-map`}>
-            <button className="btn btn-dash btn-accent text-xl">К карте</button>
-        </Link>
         <SearchInput />
         <ThemeController />
+        <button className='btn btn-dash btn-accent text-xl' onClick={handlerLogout}>
+            logout
+        </button>
     </div>
 
 

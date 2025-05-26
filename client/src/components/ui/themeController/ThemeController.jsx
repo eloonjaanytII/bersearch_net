@@ -15,7 +15,7 @@ const ThemeController = () => {
         <input
           type="checkbox"
           className="theme-controller"
-          value="sunset"
+          value="garden"
           onChange={handleChange}
           checked={isDark}
         />

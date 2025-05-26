@@ -8,13 +8,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { changeTitle } from '../../features/navbarTitleSlice'
 import SelectMovie from '../../ui/selectMovie/SelectMovie'
 import { resetFilters, setCountry, setGenre, setOrder, setYear } from '../../features/currentMovieSlice'
-import { useGetUsersQuery } from '../../services/auth'
 
 const MovieListTop = () => {
 
-  const usersList = useGetUsersQuery()
-
-  console.log(usersList)
   
   const [currentPage, setCurrentPage] = useState(1);
 

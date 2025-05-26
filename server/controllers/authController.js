@@ -52,23 +52,23 @@ const updateUserDetails = async (req, res) => {
 const signIn = async (req, res) => {
         try {
 
-            const {username, password} = req.body;
-            const user = await User.findOne({where: {username}});
+            const {email, password} = req.body;
+            const user = await User.findOne({where: {email}});
             if (!user) {
-                res.status(400).json({message: 'Пользователь с таким username не найден'})
+                return res.status(400).json({message: 'Пользователь с таким username не найден'})
             }
 
             const validPassword = bcrypt.compareSync(password, user.password);
             if (!validPassword) {
-                res.status(400).json({message: 'Пароль неверный'})
+                return res.status(400).json({message: 'Пароль неверный'})
             }
 
             const token = generateAccessToken(user.id)  
-            return res.json({token, message: 'Вы вошли'})
+            return res.json({ token, userId: user.id })
 
         }catch(e){
             console.log(e)
-            res.status(400).json({message: 'Login error'})
+            return res.status(400).json({message: 'Login error'})
         }
 }
 
