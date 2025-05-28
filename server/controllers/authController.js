@@ -9,8 +9,8 @@ const registerUser = async (req, res) => {
             if (!errors.isEmpty()) {
                 return res.status(400).json({message: "Ошибка при регистрации", errors})
             }
-            const {email, password} = req.body;
-            const candidate = await User.findOne({where: {email}} )
+            const {email, password, username} = req.body;
+            const candidate = await User.findOne({where: {username}} )
             if (candidate) {
                 return res.status(400).json({message: 'Пользователь уже существует'})
             }
@@ -20,7 +20,8 @@ const registerUser = async (req, res) => {
 
             const user = await User.create({
                 email,
-                password: hashPassword
+                password: hashPassword,
+                username
             });
 
             await UserPersonal.create({ userId: user.id });
@@ -36,10 +37,9 @@ const registerUser = async (req, res) => {
 
 const updateUserDetails = async (req, res) => {
         try {
-            const {username, gender, avatar, city, color, status } = req.body;
+            const {gender, avatar, city, color, status } = req.body;
             const userId = req.user.id;
 
-            await User.update({username}, {where: {id: userId}});
             await UserPersonal.update({gender, avatar, city, color, status}, {where : {userId}});
 
             res.json({message: 'Данные обновлены'})
@@ -52,8 +52,8 @@ const updateUserDetails = async (req, res) => {
 const signIn = async (req, res) => {
         try {
 
-            const {email, password} = req.body;
-            const user = await User.findOne({where: {email}});
+            const {username, password} = req.body;
+            const user = await User.findOne({where: {username}});
             if (!user) {
                 return res.status(400).json({message: 'Пользователь с таким username не найден'})
             }

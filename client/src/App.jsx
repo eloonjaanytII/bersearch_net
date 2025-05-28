@@ -13,6 +13,7 @@ import PersonalSelect from './components/pages/registration/PersonalSelect';
 import PrivateRouter from './components/ui/privateRouter/PrivateRouter';
 import PublicRouter from './components/ui/publicRouter/PublicRouter';
 import AuthProvider from './components/ui/authProvider/AuthProvider';
+import UserPage from './components/pages/userPage/UserPage';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -36,9 +37,10 @@ const App = () => {
               path: 'movies/:id', element: <MovieDetail />
             },
             {
-              path: 'actors', element: <Actor />,
-              children: [
-                { path: ':id', element: <ActorDetail />}]
+              path: 'user/:id', element: <UserPage />
+            },
+            {
+              path: 'actor/:id', element: <ActorDetail />,
             },
           ]
         },

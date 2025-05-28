@@ -25,7 +25,7 @@ const Layout = () => {
         </div>
         <div className="drawer-content flex-1 flex flex-col ">
             <Navbar />
-            <main className="flex-1 p-4 max-h-[100vh] mx-auto w-full overflow-hidden">
+            <main className="flex-1 p-4 mx-auto w-full overflow-hidden">
                 <Outlet/>
             </main>
             <Footer />

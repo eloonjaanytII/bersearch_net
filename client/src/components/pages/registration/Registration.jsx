@@ -12,6 +12,7 @@ const Registration = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+
   const [mode, setMode] = useState('login');
 
   const [register, { error: registerError, isLoading: registerLoading }] = useRegisterMutation();
@@ -25,16 +26,18 @@ const Registration = () => {
     try {
       let response = null;
       if(mode === 'login') {
-        response = await login({email, password}).unwrap();
+        response = await login({username, password}).unwrap();
       } else {
-        response = await register({email, password}).unwrap();
+        response = await register({email, password, username}).unwrap();
       }
       
       localStorage.setItem('token', response.token)
+      localStorage.setItem('userId', response.userId)
       dispatch(setCredentials(response.userId))
       setEmail('')
       setPassword('')
-      navigate(`/popular_serials`)
+      setUsername('')
+      navigate(`/user/${response.userId}`)
     } 
     catch (error) {
       console.log(`some error ${error}`)
@@ -57,22 +60,32 @@ const Registration = () => {
           <div className='flex gap mb-15 w-full bg-accent rounded-md'>
             <button 
               className={`w-1/2 p-5 btn ${mode === 'login' ? `btn-outline text-white` : `btn-ghost`}`}
-              onClick={() => setMode('login')}
+              onClick={() => {
+                setMode('login')
+                setEmail('')
+                setPassword('')
+                setUsername('')
+              }}
               >
               Валидация
             </button>
             <button 
               className={`w-1/2 p-5 btn ${mode === 'register' ? `btn-outline text-white` : `btn-ghost`}`}
-              onClick={() => setMode('register')}
+              onClick={() => {
+                setMode('register')
+                setEmail('')
+                setPassword('')
+                setUsername('')
+              }}
               >
               Идиотизация
             </button>
           </div>
           {mode === 'login' 
           ? 
-          <SignInForm {...{handlerSubmit, setEmail, setPassword, email, password}}/> 
+          <SignInForm {...{handlerSubmit, setUsername, setPassword, username, password}}/> 
           : 
-          <SignUpForm {...{handlerSubmit, setEmail, setPassword, email, password}}/>
+          <SignUpForm {...{handlerSubmit, setEmail, setPassword, setUsername, email, password, username}}/>
           }
         </div>
       </div>

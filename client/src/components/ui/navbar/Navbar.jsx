@@ -8,7 +8,7 @@ const Navbar = () => {
 
   const title = useSelector(state => state.navbarTitle.title)
   const navigate = useNavigate();
-
+  const userId = localStorage.getItem('userId')
   const handlerLogout = () => {
     localStorage.removeItem('token');
     navigate('/authorization/register');
@@ -28,8 +28,8 @@ const Navbar = () => {
         <div className='text-2xl font-bold'>
             {title}
         </div>}
-        <Link to={""}>
-            <button className="btn btn-dash btn-accent text-xl">Bersearch</button>
+        <Link to={`/user/${userId}`}>
+            <button className="btn btn-dash btn-accent text-xl">К истокам</button>
         </Link>
         <SearchInput />
         <ThemeController />

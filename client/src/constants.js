@@ -12,42 +12,6 @@ export const TOP_LISTS = [
       useCollections: true
     },
     {
-      title: 'Вампиры',
-      url: 'vampires',
-      value: 'VAMPIRE_THEME',
-      useCollections: true
-    },
-    {
-      title: 'Комиксы',
-      url: 'comics',
-      value: 'COMICS_THEME',
-      useCollections: true
-    },
-    {
-      title: 'Семейный',
-      url: 'family',
-      value: 'FAMILY',
-      useCollections: true
-    },
-    {
-      title: 'Романтика',
-      url: 'romantic',
-      value: 'LOVE_THEME',
-      useCollections: true
-    },
-    {
-      title: 'Зомби',
-      url: 'zombie',
-      value: 'ZOMBIE_THEME',
-      useCollections: true
-    },
-    {
-      title: 'Катастрофы',
-      url: 'catastrophes',
-      value: 'CATASTROPHE_THEME',
-      useCollections: true
-    },
-    {
       title: 'Популярные сериалы',
       url: 'popular_serials',
       value: 'POPULAR_SERIES',

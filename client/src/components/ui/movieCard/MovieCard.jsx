@@ -6,11 +6,10 @@ const MovieCard = ({item}) => {
   
   const [imageLoaded, setImageLoaded] = useState(false);
   
-
   return (
       <Link to={`${item.kinopoiskId}`} 
             className="flex flex-col items-center text-center card shadow-md
-                       transition-transform duration-400 hover:scale-103 gap-4" 
+                       transition-transform duration-400 hover:scale-103 gap-4 bg-stone-200" 
             key={item.title}>
         <figure className="relative w-full aspect-[2/3] xs:w-[50px] md:w-[200px] rounded-md overflow-hidden">
           {!imageLoaded && (
@@ -20,7 +19,7 @@ const MovieCard = ({item}) => {
             src={item.posterUrlPreview}
             alt={item.nameOriginal}
             onLoad={() => setImageLoaded(true)}
-            className={`w-full h-full object-cover rounded-md shadow transition-opacity duration-500 ${
+            className={`w-full h-full object-cover rounded-md shadow transition-opacity duration-500 mt-5 ${
               imageLoaded ? 'opacity-100' : 'opacity-0'
             }`}
           />

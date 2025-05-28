@@ -1,7 +1,8 @@
 import React from 'react'
 import { useGetFilmDetailQuery, useGetSequelsAndPrequelsQuery, useGetStaffQuery } from '../../services/kinopoisk';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import ErrorMessage from '../../ui/errorMessage/ErrorMessage';
+import { Tooltip } from 'react-tooltip'
 
 const MovieDetail = () => {
 
@@ -10,7 +11,7 @@ const MovieDetail = () => {
   const responseFilmDetail = useGetFilmDetailQuery(id);
   const responseGetStaffQuery = useGetStaffQuery(id);
 
-  console.log(responseFilmDetail.data)
+
   console.log(responseGetStaffQuery.data)
 
 
@@ -55,7 +56,18 @@ const MovieDetail = () => {
           {responseGetStaffQuery.data
             .filter(actor => actor.professionText === 'Актеры')
             .slice(0, 10)
-            .map(el => <li>{el.nameRu}</li>)
+            .map(el => (
+              <Link to={`/actor/${el.staffId}`}>
+                  <li>
+                    <Tooltip id={`tooltip-${el.staffId}`} place="top-start" >
+                      <img src={el.posterUrl} width="100" />
+                    </Tooltip>
+                    <div data-tooltip-id={`tooltip-${el.staffId}`}>
+                      {el.nameRu}
+                    </div>
+                  </li>
+              </Link>
+            ))
           }
         </ul>
       </div>
