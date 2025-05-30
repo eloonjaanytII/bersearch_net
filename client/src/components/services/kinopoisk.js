@@ -63,6 +63,7 @@ export const kinopoiskApi = createApi({
       query: id => `v1/staff/${id}`
     })
 
+
   }),
 });
 
@@ -73,4 +74,5 @@ export const { useGetFilmsCollectionsQuery,
                useGetSequelsAndPrequelsQuery,
                useGetStaffQuery,
                useGetActorDetailQuery,
+               useGetFilmsByKeywordQuery,
                } = kinopoiskApi;
