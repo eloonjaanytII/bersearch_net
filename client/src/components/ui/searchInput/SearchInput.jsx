@@ -28,7 +28,7 @@ const SearchInput = () => {
             type="text"
             className="input input-bordered input-accent w-full"
             placeholder="Поиск фильма..."
-            maxlength = {40}
+            maxLength = {40}
             value={keyword}
             onFocus={() => setIsActive(true)}
             onBlur = {() => setTimeout(() => setIsActive(false), 100)}

@@ -1,19 +1,23 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import './App.css'
-import Layout from './components/ui/layout/Layout'
+import { lazy, Suspense } from 'react';
 import {TOP_LISTS } from './constants';
-import Movies from './components/pages/movies/Movies'
-import MovieDetail from './components/pages/movieDetail/MovieDetail';
-import Actor from './components/pages/actors/Actor';
-import ActorDetail from './components/pages/actorDetail/ActorDetail';
-import MovieListTop from './components/pages/movieListTop/MovieListTop';
-import Registration from './components/pages/registration/Registration';
-import AvatarSelect from './components/pages/registration/AvatarSelect';
-import PersonalSelect from './components/pages/registration/PersonalSelect';
+import './App.css'
+
+
+const Movies = lazy(() => import('./components/pages/movies/Movies'));
+const MovieDetail = lazy(() => import('./components/pages/movieDetail/MovieDetail'));
+const ActorDetail = lazy(() => import('./components/pages/actorDetail/ActorDetail'));
+const MovieListTop = lazy(() => import('./components/pages/movieListTop/MovieListTop'));
+const Registration = lazy(() => import('./components/pages/registration/Registration'));
+const AvatarSelect = lazy(() => import('./components/pages/registration/AvatarSelect'));
+const PersonalSelect = lazy(() => import('./components/pages/registration/PersonalSelect'));
+const UserPage = lazy(() => import('./components/pages/userPage/UserPage'));
+
+import Layout from './components/ui/layout/Layout'
 import PrivateRouter from './components/ui/privateRouter/PrivateRouter';
 import PublicRouter from './components/ui/publicRouter/PublicRouter';
 import AuthProvider from './components/ui/authProvider/AuthProvider';
-import UserPage from './components/pages/userPage/UserPage';
+
 
 const App = () => {
   const router = createBrowserRouter([
@@ -21,14 +25,14 @@ const App = () => {
       path: '/', element: <Layout />,
       children: [
         {
-          path: '', element: <Movies />
-        },
+          path: '', 
+          element: <Movies />},
         {
           element: <PrivateRouter />,
           children: [
             ...TOP_LISTS.map(elem => ({
             path: elem.url,
-            element: <MovieListTop />,
+            element: <MovieListTop />
             })),
             ...TOP_LISTS.map(item => ({
             path: `${item.url}/:id`,
@@ -37,10 +41,12 @@ const App = () => {
               path: 'movies/:id', element: <MovieDetail />
             },
             {
-              path: 'user/:id', element: <UserPage />
+              path: 'user/:id', 
+              element: <UserPage />
             },
             {
-              path: 'actor/:id', element: <ActorDetail />,
+              path: 'actor/:id', 
+              element: <ActorDetail />
             },
           ]
         },
@@ -50,9 +56,23 @@ const App = () => {
       path: '/authorization',
       element: <PublicRouter />,
       children: [
-        {path: 'register', element: <Registration />},
-        {path: 'avatar-select', element: <AvatarSelect />},
-        {path: 'personal-select', element: <PersonalSelect />}
+        {path: 'register', 
+         element: 
+         <Suspense fallback={<div>isLoading...</div>}>
+           <Registration />
+         </Suspense>
+         },
+        {path: 'avatar-select', 
+         element: 
+         <Suspense fallback={<div>isLoading...</div>}>
+            <AvatarSelect />
+         </Suspense>
+         },
+        {path: 'personal-select', 
+          element: 
+          <Suspense fallback={<div>isLoading...</div>}>
+            <PersonalSelect />
+         </Suspense>}
       ]
     },
     {

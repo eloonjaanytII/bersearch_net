@@ -1,21 +1,39 @@
-export const SignInForm = ({handlerSubmit, setUsername, setPassword, username, password}) => {
+import {useForm} from 'react-hook-form';
+
+const SignInForm = ({handlerSubmit, loginError}) => {
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: {errors},
+  } = useForm({mode: "onBlur"});
+
+
   return (
-    <form onSubmit={handlerSubmit} className='flex flex-col gap-4 w-full text-2xl'> 
+    <form onSubmit={handleSubmit(handlerSubmit)} className='flex flex-col gap-4 w-full text-2xl'> 
         <label>Параметры для входа:</label>
         <input className="input input-neutral w-full text-xl p-5"
-            type='text'
             placeholder='username'
-            value={username}
-            onChange={e=> setUsername(e.target.value)}
-        />
+            {...register("username", {required: "Введите юзернейм"})}/>
+        {errors.username && <p>{errors.username.message}</p>}
+
         <input 
             className="input input-neutral w-full text-xl p-5"
-            type='password'
             placeholder='password'
-            value={password}
-            onChange={e=> setPassword(e.target.value)}
+            type="password"
+            {...register("password", {required: "Пароль обязателен"})}
         />
-        <button className="btn btn-outline p-5" type="submit">Признать себя</button>
+        {errors.password && <p>{errors.password.message}</p>}
+
+        <button 
+          className="btn btn-outline p-5" 
+          type="submit"
+          >Признать себя</button>
+        {loginError && <p>Ошибка входа</p>}
+
     </form>
   )
 }
+
+export default SignInForm;

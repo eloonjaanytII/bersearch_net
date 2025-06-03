@@ -1,28 +1,36 @@
-import React from 'react'
+import {useForm} from 'react-hook-form';
 
-const SignUpForm = ({handlerSubmit, setEmail, setPassword, setUsername,  email, password, username}) => {
+const SignUpForm = ({handlerSubmit, registerError}) => {
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: {errors},
+  } = useForm({mode: "onBlur"})
+
   return (
-    <form onSubmit={handlerSubmit} className='flex flex-col gap-4 w-full text-2xl'> 
+    <form onSubmit={handleSubmit(handlerSubmit)} className='flex flex-col gap-4 w-full text-2xl'> 
         <label>Параметры для регистрации:</label>
         <input className="input input-neutral w-full text-xl p-5"
-            type='email'
             placeholder='email'
-            value={email}
-            onChange={e=> setEmail(e.target.value)}
+            {...register("email", {required: "Введите почту"})}
         />
+        {errors.email && <p>{errors.email.message}</p>}
+
         <input className="input input-neutral w-full text-xl p-5"
-            type='text'
             placeholder='username'
-            value={username}
-            onChange={e=> setUsername(e.target.value)}
+            {...register("username", {required: "Введите юзернейм"})}
         />
+        {errors.username && <p>{errors.username.message}</p>}
+
         <input 
             className="input input-neutral w-full text-xl p-5"
             type='password'
             placeholder='password'
-            value={password}
-            onChange={e=> setPassword(e.target.value)}
+            {...register("password", {required: "Введите пароль"})}
         />
+        {errors.password && <p>{errors.password.message}</p>}
         
         <button className="btn btn-outline p-5" type="submit">Признать себя</button>
     </form>

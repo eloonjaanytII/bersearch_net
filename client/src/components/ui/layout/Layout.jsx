@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import Navbar from '../navbar/Navbar'
 import { TOP_LISTS } from '../../../constants'
 import Footer from '../footer/Footer'
@@ -26,7 +26,9 @@ const Layout = () => {
         <div className="drawer-content flex-1 flex flex-col ">
             <Navbar />
             <main className="flex-1 p-4 mx-auto w-full overflow-hidden">
-                <Outlet/>
+                <Suspense fallback = {<div>is Loading...</div>}>
+                    <Outlet/>
+                </Suspense>
             </main>
             <Footer />
         </div>
