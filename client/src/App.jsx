@@ -3,7 +3,6 @@ import { lazy, Suspense } from 'react';
 import {TOP_LISTS } from './constants';
 import './App.css'
 
-
 const Movies = lazy(() => import('./components/pages/movies/Movies'));
 const MovieDetail = lazy(() => import('./components/pages/movieDetail/MovieDetail'));
 const ActorDetail = lazy(() => import('./components/pages/actorDetail/ActorDetail'));
@@ -17,6 +16,8 @@ import Layout from './components/ui/layout/Layout'
 import PrivateRouter from './components/ui/privateRouter/PrivateRouter';
 import PublicRouter from './components/ui/publicRouter/PublicRouter';
 import AuthProvider from './components/ui/authProvider/AuthProvider';
+import UsersList from './components/pages/usersList/UsersList';
+import { GlobalMap } from './components/pages/globalMap/GlobalMap';
 
 
 const App = () => {
@@ -39,6 +40,10 @@ const App = () => {
             element: <MovieDetail />})),
             {
               path: 'movies/:id', element: <MovieDetail />
+            },
+            {
+              path: 'users-list', 
+              element: <UsersList />
             },
             {
               path: 'user/:id', 
@@ -75,6 +80,10 @@ const App = () => {
          </Suspense>}
       ]
     },
+    {
+              path: 'global-map', 
+              element: <GlobalMap />
+            },
     {
       path: '*', element: <div>Not found error</div>
     }

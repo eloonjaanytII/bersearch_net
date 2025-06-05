@@ -27,42 +27,41 @@ const registerUser = async (req, res, next) => {
     return res.status(201).json({ token, userId: user.id });
 }
 
-const updateUserDetails = async (req, res) => {
-        try {
-            const {gender, avatar, city, color, status } = req.body;
-            const userId = req.user.id;
+const updateUserDetails = async (req, res, next) => {
 
-            await UserPersonal.update({gender, avatar, city, color, status}, {where : {userId}});
+    const {gender, avatar, city, color, status } = req.body;
+    const userId = req.user.id;
 
-            res.json({message: 'Данные обновлены'})
-
-        }catch(e){
-            res.status(500).json({ message: 'Ошибка обновления', error });
-        }
+    await UserPersonal.update({gender, avatar, city, color, status}, {where : {userId}});
+    res.json({message: 'Данные обновлены'})
 }
 
-const signIn = async (req, res) => {
-        try {
+const signIn = async (req, res, next) => {
 
-            const {username, password} = req.validated;
-            const user = await User.findOne({where: {username}});
-            if (!user) {
-                return res.status(401).json({message: 'Пользователь с таким username не найден'})
-            }
+    const {username, password} = req.validated;
+    const user = await User.findOne({where: {username}});
 
-            const validPassword = bcrypt.compareSync(password, user.password);
-            if (!validPassword) {
-                return res.status(401).json({message: 'Пароль неверный'})
-            }
+    const validPassword = bcrypt.compareSync(password, user.password);
 
-            const token = generateAccessToken(user.id)  
-            return res.json({ token, userId: user.id })
+    if (!validPassword || !user) {
+        next(new Error(JSON.stringify({status: 400, message: 'Вы ввели некорректный юзернейм или пароль'})))
+    }
 
-        }catch(e){
-            console.error("Ошибка входа:", e);
-            return res.status(500).json({message: 'Ошибка валидации пользователя'})
-        }
+    const token = generateAccessToken(user.id)  
+    return res.json({ token, userId: user.id })
+
+}
+
+const сurrentUser = async (req, res, next) => {
+
+    const user = await User.findByPk(req.user.id);
+
+    if (!user) {
+        next(new Error(JSON.stringify({status: 404, message: 'Пользователь не найден'})))
+    }
+
+    return res.json({userId: user.id})
 }
 
 
-module.exports = {registerUser, updateUserDetails, signIn};
+module.exports = {registerUser, updateUserDetails, signIn, сurrentUser};

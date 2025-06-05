@@ -4,11 +4,28 @@
 }
 
 @font-face {
-    font-family: "Rammetto One Cyrillic";
-    src: url('./fonts/rammettoonecyrillic.woff2');
+    font-family: "CormorantGaramond";
+    src: url('./fonts/CormorantGaramond-VariableFont_wght.ttf');
 }
 
+@font-face {
+    font-family: "SyneMono";
+    src: url('./fonts/SyneMono-Regular.ttf');
+}
+
+
 @import "tailwindcss";
+
+@layer components {
+  .kurosawa-noise {
+    position: absolute;
+    inset: 0;
+    background-image: repeating-radial-gradient(#00000066 1px, transparent 1px);
+    opacity: 0.1;
+    pointer-events: none;  /* Не блокирует клики! */
+    z-index: 1;  /* Ниже контента и ползунка */
+  }
+}
 
 @plugin "daisyui" {
   themes: garden --default, dark --prefersdark;
@@ -54,6 +71,5 @@
 
 html {
     scrollbar-width: none;
-    font-family: "WDXL Lubrifont TC", sans-serif;
+    font-family: "CormorantGaramond", sans-serif;
 }
-

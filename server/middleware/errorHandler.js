@@ -3,8 +3,10 @@ const errorHandler = (err, req, res, next) => {
   if (res.headersSent) {
     return next(err)
   }
-  res.status(500)
-  res.json({ error: "error smth" })
+  const status = err.status || 500;
+  const message = err.message || "Something went wrong";
+
+  res.status(status).json({ error: message });
 }
 
 module.exports = {errorHandler};

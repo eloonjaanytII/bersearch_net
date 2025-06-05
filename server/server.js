@@ -3,6 +3,7 @@ const {sequelize} = require('./db.js')
 const PORT = process.env.PORT || 5000;
 const authRouter = require('./routes/authRouter.js')
 const reviewRouter = require('./routes/reviewRouter.js')
+const usersRouter = require('./routes/usersRouter.js')
 const cors = require('cors');
 const {errorHandler} = require('./middleware/errorHandler.js');
 
@@ -13,6 +14,7 @@ app.use(express.json())
 
 app.use('/auth', authRouter)
 app.use('/review', reviewRouter)
+app.use('/users', usersRouter)
 
 app.use(errorHandler)
 

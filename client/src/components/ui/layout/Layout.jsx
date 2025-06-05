@@ -15,11 +15,19 @@ const Layout = () => {
                 <ul>
                     {TOP_LISTS.map(item => (
                         <li key = {item.title} >
-                            <Link to={`/${item.url}`} onClick={() => { document.getElementById('my-drawer').checked = false;}}>
+                            <Link to={`/${item.url}`} onClick={() => { document.getElementById('my-drawer').checked = false}}>
                                 {item.title}
                             </Link>
                         </li>
                     ))}
+                    <div className="divider"></div>
+                    <li>
+                        <Link to={`/users-list`} onClick={() => { document.getElementById('my-drawer').checked = false}}>
+                            <p>
+                                Список идиотов
+                            </p>
+                        </Link>
+                    </li>
                 </ul>
             </aside>
         </div>

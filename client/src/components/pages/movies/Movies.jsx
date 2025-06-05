@@ -93,9 +93,22 @@ const Movies = () => {
         </div>
       )
   )}
-  <div className="mt-8">
-      <Outlet />
-  </div>
+      <figure class="diff aspect-[16/9]" tabIndex={0}>
+        <div class="diff-item-1" role="img" tabIndex={0}>
+          <div className="bg-primary text-primary-content grid place-content-center text-9xl font-black">
+            DAISY
+          </div>
+        </div>
+        <div class="diff-item-2 relative " role="img"> 
+          <div class="kurosawa-noise"></div>
+          <div class="bg-black grayscale-100 contrast-130 grid place-content-center text-9xl text-white">DAISY</div>
+        </div>
+        <div class="diff-resizer"></div>  
+      </figure>
+
+      <div className="mt-8">
+          <Outlet />
+      </div>
   </div>
   )
 

@@ -31,7 +31,7 @@ const Navbar = () => {
         <Link to={`/user/${userId}`}>
             <button className="btn btn-dash btn-accent text-xl">К истокам</button>
         </Link>
-        <SearchInput />
+        <SearchInput mode = 'navbar'/>
         <ThemeController />
         <button className='btn btn-dash btn-accent text-xl' onClick={handlerLogout}>
             logout

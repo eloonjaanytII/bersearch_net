@@ -7,6 +7,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { kinopoiskApi } from '../services/kinopoisk';
 import { authApi } from '../services/auth';
 import { reviewApi } from '../services/review';
+import { usersApi } from '../services/users';
 
 export const store = configureStore({
   reducer: {
@@ -17,9 +18,15 @@ export const store = configureStore({
     [kinopoiskApi.reducerPath]: kinopoiskApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     [reviewApi.reducerPath]: reviewApi.reducer,
+    [usersApi.reducerPath] : usersApi.reducer,
 
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(kinopoiskApi.middleware).concat(authApi.middleware).concat(reviewApi.middleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware()
+  .concat(kinopoiskApi.middleware)
+  .concat(authApi.middleware)
+  .concat(reviewApi.middleware)
+  .concat(usersApi.middleware)
+  ,
 });
 
 setupListeners(store.dispatch);
