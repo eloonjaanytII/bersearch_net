@@ -15,7 +15,7 @@ export function GlobalMap() {
   ];
 
   return (
-    <div className="GlobalMap">
+    <div className="w-[100%] h-[100%]">
       <WorldMap
         color="red"
         value-suffix="people"

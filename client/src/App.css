@@ -16,16 +16,6 @@
 
 @import "tailwindcss";
 
-@layer components {
-  .kurosawa-noise {
-    position: absolute;
-    inset: 0;
-    background-image: repeating-radial-gradient(#00000066 1px, transparent 1px);
-    opacity: 0.1;
-    pointer-events: none;  /* Не блокирует клики! */
-    z-index: 1;  /* Ниже контента и ползунка */
-  }
-}
 
 @plugin "daisyui" {
   themes: garden --default, dark --prefersdark;
@@ -66,10 +56,18 @@
 
 
 @theme {
-    --font-lubrifont: "WDXL Lubrifont TC", 'sans-serif';
+    --font-idiotherne: "SyneMono", 'sans-serif';
 }
 
 html {
     scrollbar-width: none;
-    font-family: "CormorantGaramond", sans-serif;
+    font-family: "WDXL Lubrifont TC", sans-serif;
+}
+
+.no-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }

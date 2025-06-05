@@ -23,10 +23,13 @@ const SearchInput = ({mode, setKinoId}) => {
   if (isLoading) return <div>isLoading...</div>
   
   return (
-    <div className="relative ${mode === 'navbar' ? w-70 : w-full}">
-      <input
+    <div className="relative ${mode === 'navbar' ? w-[30vw] : w-full}">
+      <label className="input grow w-full">
+        {mode === 'navbar' &&
+        <img src='/film-reel.png' className="h-[1.5em] opacity-50"/>}
+        <input
             type="text"
-            className="input input-bordered input-accent w-full"
+            className=""
             placeholder="Поиск фильма..."
             maxLength = {40}
             value={keyword}
@@ -34,6 +37,8 @@ const SearchInput = ({mode, setKinoId}) => {
             onBlur = {() => setTimeout(() => setIsActive(false), 100)}
             onChange={(e) => setKeyword(e.target.value)}
       />
+      </label>
+      
       {isActive && results.length > 0 && mode === 'navbar' &&
         <SearchInputListHeader {...{results, setKeyword, setResults}} />
       }

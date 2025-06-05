@@ -27,7 +27,8 @@ const App = () => {
       children: [
         {
           path: '', 
-          element: <Movies />},
+          element: <Movies />
+        },
         {
           element: <PrivateRouter />,
           children: [
