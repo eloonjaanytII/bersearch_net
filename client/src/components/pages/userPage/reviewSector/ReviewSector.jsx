@@ -1,66 +1,39 @@
-import React, { useState } from 'react'
-import {useGetUserReviewQuery, useSendReviewMutation } from '../../../services/review'
+import { useReviewSector } from '../../../hooks/useReviewSector';
+import {useGetUserReviewQuery } from '../../../services/review'
+import ReviewForm from './reviewForm/ReviewForm';
+import ReviewList from './reviewList/ReviewList';
+import WatchedList from './watchedList/WatchedList';
 
-import SearchInput from '../../../ui/searchInput/SearchInput'
+const ReviewSector = ({isOwner, userId, userFilms}) => {
 
-const ReviewSector = ({isOwner, userId}) => {
+    const {data, error: errorGetted, isLoading: isLoadingGetted} = useGetUserReviewQuery(userId, {skip: !userId});
+    const reviewForm = useReviewSector(userId);
 
-    const [content, setContent] = useState('');
-    const [title, setTitle] = useState('');
-    const [kinoId, setKinoId] = useState(null);
-
-    const [send, {error, isLoading}] = useSendReviewMutation();
-
-    const {data, refetch, error: errorGetted, isLoading: isLoadingGetted} = useGetUserReviewQuery(userId, {skip: !userId});
-
-    const handlerSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            await send({kinopoiskId: kinoId, content, title})
-            await refetch();
-            setContent('')
-            setTitle('')
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    if (isLoading || isLoadingGetted) return <div>is Loading...</div>
+    if (reviewForm.isLoading || reviewForm.isLoadingGetted) return <div>is Loading...</div>
   return (
-    <div className="w-1/2 flex flex-col justify-between pl-4 pr-4">
-        <div className='h-[300px] overflow-y-auto'>
-            <ul>
-                {data?.reviews?.map(item => (
-                    <li key={item.id} className='border-b-2'>
-                        Рецензия №{item.id} <br />
-                        {item.title}<br />
-                        {item.content}
-                    </li>
-                ))}
-            </ul>
-            
+    <div className="w-1/2 pl-4 pr-4">
+      <div className="tabs tabs-lift flex justify-center">
+        <input type="radio" name="my_tabs_3" className="tab" aria-label="Рецензии" defaultChecked />
+          <div className="tab-content border-base-300 p-6">
+              {isOwner && <ReviewForm {...reviewForm}/>}
+              <ReviewList data={data}/>
+          </div>
+        <input type="radio" name="my_tabs_3" className="tab" aria-label="Оценки"/>
+        <div className="tab-content  border-base-300 p-6">
+          conent 2
         </div>
-        {isOwner &&
-        <form onSubmit={handlerSubmit}>
-            <SearchInput mode='review' setKinoId={setKinoId}/>
-            <input 
-                placeholder='Название рецензии'
-                value={title}
-                className="input input-neutral mt-1 mb-1 w-full"
-                onChange={e => setTitle(e.target.value)}
-            />
-            <textarea 
-                placeholder="Место для раздумий" 
-                value = {content}
-                onChange={e => setContent(e.target.value)}
-                className="textarea textarea-accent w-full"
-            />
-            <button className='btn btn-accent' type='submit'>
-                Отправить
-            </button>
-        </form>
-        }
+
+        <input type="radio" name="my_tabs_3" className="tab" aria-label="Просмотренное"/>
+        <div className="tab-content border-base-300 p-6">
+          <WatchedList userFilms={userFilms}/>
+        </div>
+
+        <input type="radio" name="my_tabs_3" className="tab" aria-label="Друзья"/>
+        <div className="tab-content border-base-300 p-6">Tab content 4</div>
+
+      </div>
+
+        
     </div>
   )
 }
