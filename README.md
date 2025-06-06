@@ -1,1 +1,1 @@
-"# bersearch_net" 
+This is my pet-project Idiotherne
