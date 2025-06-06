@@ -16,13 +16,13 @@ const Navbar = () => {
   } 
 
   return (
-    <div className="navbar p-5 pb-0 pt-2 bg-accent-content shadow-sm flex justify-between">
+    <div className="navbar p-5 pb-0 pt-2 bg-[#7B1212] shadow-sm flex justify-between">
         <NavbarLogo />
         <SearchInput mode = 'navbar'/>
         <ThemeController />
-        <Link to="/global-map">
+        {/* <Link to="/global-map">
           <img src="/icons-map.gif" alt='map'/>
-        </Link>
+        </Link> */}
         <NavbarUserIcon {...{userId, handlerLogout}}/>
     </div>
   )

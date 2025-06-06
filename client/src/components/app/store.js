@@ -8,6 +8,7 @@ import { kinopoiskApi } from '../services/kinopoisk';
 import { authApi } from '../services/auth';
 import { reviewApi } from '../services/review';
 import { usersApi } from '../services/users';
+import { filmsApi } from "../services/films";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [reviewApi.reducerPath]: reviewApi.reducer,
     [usersApi.reducerPath] : usersApi.reducer,
+    [filmsApi.reducerPath] : filmsApi.reducer,
 
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware()
@@ -26,6 +28,7 @@ export const store = configureStore({
   .concat(authApi.middleware)
   .concat(reviewApi.middleware)
   .concat(usersApi.middleware)
+  .concat(filmsApi.middleware)
   ,
 });
 

@@ -18,7 +18,7 @@
 
 
 @plugin "daisyui" {
-  themes: garden --default, dark --prefersdark;
+  themes: autumn --default, dark --prefersdark;
 }
 
 @plugin "daisyui/theme" {
@@ -62,6 +62,7 @@
 html {
     scrollbar-width: none;
     font-family: "WDXL Lubrifont TC", sans-serif;
+    background-color: #f8f1e3 ;
 }
 
 .no-scrollbar {
