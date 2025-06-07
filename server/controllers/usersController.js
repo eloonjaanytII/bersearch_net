@@ -1,7 +1,6 @@
 const {User} = require('../models/index');
 
-
-const usersList = async (req, res, next) => {
+const getUsersList = async (req, res, next) => {
 
     const {count, rows} = await User.findAndCountAll();
 
@@ -18,4 +17,4 @@ const usersList = async (req, res, next) => {
     return res.json({usersList, countUsers : count, message: 'Список пользователей успешно отправлен'})
 }
 
-module.exports = {usersList}
+module.exports = {getUsersList}

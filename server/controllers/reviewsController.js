@@ -1,45 +1,36 @@
 const {Review} = require('../models/index');
 
-const sendReview = async (req, res) => {
-        try {
-            const {content, kinopoiskId, title } = req.body;
-            const userId = req.user.id;
+const createReview = async (req, res, next) => {
 
-            const checkReview = await Review.findOne({where: {kinopoiskId, userId}} )
-            if (checkReview) {
-                return res.status(400).json({message: 'Рецензия на фильм уже существует'})
-            }
-            
-            await Review.create({
-                content,
-                kinopoiskId,
-                userId,
-                title
-            });
+    const {content, kinopoiskId, title } = req.body;
+    const userId = req.user.id;
 
-            return res.status(201).json({ message: 'Рецензия опубликована'});
+    const checkReview = await Review.findOne({where: {kinopoiskId, userId}})
 
-        }catch(e){
-            console.log(e)
-            res.status(500).json({message: 'Send review error'})
-        }
+    if (checkReview) {
+        next(new Error("Рецензия на фильм уже существует"))
+    }
+    
+    await Review.create({
+        content,
+        kinopoiskId,
+        userId,
+        title
+    });
+
+    return res.status(201).json({ message: 'Рецензия опубликована'});
 }
 
-const getUserReview = async (req, res) => {
-        try {
-            const {userId} = req.params;
+const getUserReview = async (req, res, next) => {
+    
+    const {userId} = req.params;
 
-            const checkReview = await Review.findAll({where: {userId}})
-            if (checkReview.length === 0) {
-                return res.status(400).json({message: 'Рецензий у пользователя не обнаружено'})
-            }
+    const checkReview = await Review.findAll({where: {userId}})
+    if (checkReview.length === 0) {
+        next(new Error('Рецензий у пользователя не обнаружено'))
+    }
 
-            return res.status(200).json({reviews: checkReview});
-
-        }catch(e){
-            console.log(e)
-            res.status(500).json({message: 'Какая-то ошибка при поиске рецензий пользователя'})
-        }
+    return res.status(200).json({reviews: checkReview});
 }
 
-module.exports = {sendReview, getUserReview};
+module.exports = {createReview, getUserReview};

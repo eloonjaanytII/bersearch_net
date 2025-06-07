@@ -1,12 +1,12 @@
-const {User, UserPersonal} = require('../models/index');
+const {User} = require('../models/index');
 const bcrypt = require("bcryptjs");
 const generateAccessToken = require('../utils/generateToken');
 
-const registerUser = async (req, res, next) => {
+const createUser = async (req, res, next) => {
 
     const {email, password, username} = req.validated;
 
-    const candidate = await User.findOne({where: {email}} )
+    const candidate = await User.findOne({where: {username}} )
 
     if (candidate) {
         next(new Error (JSON.stringify({status: 409, message: "Пользователь уже существует"})))
@@ -21,22 +21,11 @@ const registerUser = async (req, res, next) => {
         username
     });
 
-    await UserPersonal.create({ userId: user.id });
-
     const token = generateAccessToken(user.id);
     return res.status(201).json({ token, userId: user.id });
 }
 
-const updateUserDetails = async (req, res, next) => {
-
-    const {gender, avatar, city, color, status } = req.body;
-    const userId = req.user.id;
-
-    await UserPersonal.update({gender, avatar, city, color, status}, {where : {userId}});
-    res.json({message: 'Данные обновлены'})
-}
-
-const signIn = async (req, res, next) => {
+const getUser = async (req, res, next) => {
 
     const {username, password} = req.validated;
     const user = await User.findOne({where: {username}});
@@ -52,7 +41,7 @@ const signIn = async (req, res, next) => {
 
 }
 
-const сurrentUser = async (req, res, next) => {
+const getUserId = async (req, res, next) => {
 
     const user = await User.findByPk(req.user.id);
 
@@ -64,4 +53,4 @@ const сurrentUser = async (req, res, next) => {
 }
 
 
-module.exports = {registerUser, updateUserDetails, signIn, сurrentUser};
+module.exports = {createUser, getUser, getUserId};

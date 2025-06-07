@@ -13,9 +13,26 @@
     src: url('./fonts/SyneMono-Regular.ttf');
 }
 
-
 @import "tailwindcss";
 
+.scrollbar-review {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(72, 70, 70) white;
+}
+
+/* для Chrome/Edge/Safari */
+.scrollbar-review::-webkit-scrollbar {
+  height: 12px;
+  width: 12px;
+}
+.scrollbar-review::-webkit-scrollbar-track {
+  background: white;
+}
+.scrollbar-review::-webkit-scrollbar-thumb {
+  background-color: rgb(72, 70, 70);
+  border-radius: 5px;
+  border: 3px solid white;
+}
 
 @plugin "daisyui" {
   themes: autumn --default, dark --prefersdark;

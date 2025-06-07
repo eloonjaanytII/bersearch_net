@@ -1,5 +1,5 @@
 
-import { Link, useNavigate } from 'react-router-dom'
+import {useNavigate } from 'react-router-dom'
 import SearchInput from '../searchInput/SearchInput'
 import ThemeController from '../themeController/ThemeController'
 import NavbarLogo from './NavbarLogo'
@@ -16,7 +16,7 @@ const Navbar = () => {
   } 
 
   return (
-    <div className="navbar p-5 pb-0 pt-2 bg-[#7B1212] shadow-sm flex justify-between">
+    <div className="navbar p-5 pb-0 pt-2 bg-amber-100 shadow-sm flex justify-between">
         <NavbarLogo />
         <SearchInput mode = 'navbar'/>
         <ThemeController />

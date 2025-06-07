@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import ErrorMessage from '../../ui/errorMessage/ErrorMessage';
 import { Tooltip } from 'react-tooltip'
 import { useSendFilmsMutation } from '../../services/films';
+import ScoreMovie from './ScoreMovie';
 
 const MovieDetail = () => {
 
@@ -24,6 +25,9 @@ const {
   const [send, {error, isLoading}] = useSendFilmsMutation();
 
   const handlerWatch = async () => {
+
+    const director = (staff.filter(el => el.professionKey === 'DIRECTOR'))
+
     try {
       await send(
         { 
@@ -34,7 +38,8 @@ const {
           year: filmDetail.year,
           filmLength: filmDetail.filmLength,
           countries: filmDetail.countries,
-          genres: filmDetail.genres
+          genres: filmDetail.genres,
+          director
         })
     } catch (error) {
         console.log(error)
@@ -74,6 +79,7 @@ const {
         <div className='mb-17'>
           <div className='text-3xl'>{filmDetail.ratingKinopoisk}</div>
           <div>{`${filmDetail.ratingKinopoiskVoteCount} оценка`}</div>
+          <ScoreMovie />
         </div>
         <h2 className='mb-4'>В главных ролях:</h2>
         <ul>

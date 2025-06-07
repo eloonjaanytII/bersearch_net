@@ -6,7 +6,7 @@ const NavbarLogo = () => {
     <div className="dropdown dropdown-hover w-[15%] mr-20 cursor-pointer">
           <Link to='/' className='flex items-center mb-2' onClick={(e) => {e.currentTarget.blur()}}>
             <img src="/logo1.png" alt="logo" className='w-12 h-12 rounded-xl border-black border p-0.5'/>
-            <p className="font-idiotherne text-3xl p-2 mt-2.5">Idiotherne</p>
+            <p className="font-idiotherne tracking-tighter text-3xl p-2 mt-2.5 text-[#751616]">Idiotherne</p>
           </Link>
         <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-1 w-[110%] p-2 shadow-sm">
           {TOP_LISTS.map(item => (

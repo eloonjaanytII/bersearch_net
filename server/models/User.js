@@ -6,7 +6,7 @@ const User = sequelize.define(
   {
     username: {
       type: DataTypes.STRING(50),
-      allowNull: true,
+      allowNull: false,
       unique: true,
     },
     email: {
@@ -18,6 +18,14 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    avatar: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    status: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
+    }
   },
   {
     timestamps: true,

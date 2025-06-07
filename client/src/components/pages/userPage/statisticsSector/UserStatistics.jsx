@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { PieChart, Pie, Sector, ResponsiveContainer, Cell } from 'recharts';
+import ChoiceStastics from './ChoiceStastics';
 
 const COLORS = [
   '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
@@ -75,26 +76,30 @@ const UserStatistics = ({userFilms}) => {
   };
 
   return (
-    <ResponsiveContainer width="50%" height="50%">
-      <PieChart>
-        <Pie
-          activeIndex={activeIndex}
-          activeShape={renderActiveShape}
-          data={arrayFilm}
-          cx="50%"
-          cy="50%"
-          innerRadius={60}
-          outerRadius={80}
-          fill="#7B1212"
-          dataKey="value"
-          onMouseEnter={handlePieEnter}
-        >
-        {arrayFilm.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-      </PieChart>
-    </ResponsiveContainer>
+    <div className="bg-amber-800 h-[100%] w-[100%] flex flex-col justify-centet items-center p-2">
+        <p className="text-2xl mb-2">Распределение по:</p>
+        <ChoiceStastics />
+        <ResponsiveContainer width="100%" height="100%" >
+          <PieChart>
+            <Pie
+              activeIndex={activeIndex}
+              activeShape={renderActiveShape}
+              data={arrayFilm}
+              cx="50%"
+              cy="50%"
+              innerRadius={90}
+              outerRadius={110}
+              fill="#7B1212"
+              dataKey="value"
+              onMouseEnter={handlePieEnter}
+            >
+            {arrayFilm.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+          </PieChart>
+        </ResponsiveContainer>
+    </div>
   );
 };
 

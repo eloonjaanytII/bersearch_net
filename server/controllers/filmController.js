@@ -1,14 +1,36 @@
-const { UserFilmList } = require("../models");
+const { UserFilms } = require("../models");
+const { Film } = require("../models");
+const { Film } = require("../models");
 
-const sendFilm = async (req, res, next) => {
+const createFilm = async (req, res, next) => {
 
-    const {kinopoiskId, nameRu, nameOriginal, posterUrl, year, filmLength, countries, genres, rating=0} = req.body;
+    const {kinopoiskId, isWatched} = req.body;
+    const userId = req.user.id;
+
+    const checkFilm = await UserFilms.findOne({where: {kinopoiskId, userId}} )
+
+    if (checkFilm) {
+        return next(new Error("Фильм уже просмотрен"))
+    }
+    
+    await UserFilmList.create({
+        kinopoiskId,
+        userId,
+        isWatched
+    });
+
+    return res.status(201).json({ message: 'Фильм сохранён в список'});
+}
+
+const updateRating = async (req, res, next) => {
+
+    const {kinopoiskId, rating} = req.body;
     const userId = req.user.id;
 
     const checkFilm = await UserFilmList.findOne({where: {kinopoiskId, userId}} )
 
     if (checkFilm) {
-        return next(new Error("Рецензия на фильм уже существует"))
+        return next(new Error("Фильм не найден"))
     }
     
     await UserFilmList.create({
@@ -21,11 +43,14 @@ const sendFilm = async (req, res, next) => {
         filmLength,
         countries,
         genres,
-        rating
+        rating,
+        director
     });
 
     return res.status(201).json({ message: 'Фильм сохранён в список'});
 }
+
+
 
 const getUserFilms = async (req, res, next) => {
             const {userId} = req.params;
