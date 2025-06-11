@@ -1,67 +1,89 @@
 const { UserFilms } = require("../models");
 const { Film } = require("../models");
-const { Film } = require("../models");
+const getFilmOrFetch = require("../services/getFilmorFetch");
 
-const createFilm = async (req, res, next) => {
+const updateFilmFlags = async (req, res) => {
 
-    const {kinopoiskId, isWatched} = req.body;
+    const {kinopoiskId, isWatched, rating, favorite} = req.body;
     const userId = req.user.id;
 
-    const checkFilm = await UserFilms.findOne({where: {kinopoiskId, userId}} )
-
-    if (checkFilm) {
-        return next(new Error("Фильм уже просмотрен"))
-    }
-    
-    await UserFilmList.create({
-        kinopoiskId,
-        userId,
-        isWatched
-    });
+    await UserFilms.update({isWatched, rating, favorite}, {where : {kinopoiskId, userId}});
 
     return res.status(201).json({ message: 'Фильм сохранён в список'});
 }
 
-const updateRating = async (req, res, next) => {
+const getFilm = async (req, res, next) => {
 
-    const {kinopoiskId, rating} = req.body;
-    const userId = req.user.id;
+    const {kinopoiskId} = req.params;
+    const film = await getFilmOrFetch(kinopoiskId);
 
-    const checkFilm = await UserFilmList.findOne({where: {kinopoiskId, userId}} )
-
-    if (checkFilm) {
+    if (!film) {
         return next(new Error("Фильм не найден"))
     }
-    
-    await UserFilmList.create({
-        kinopoiskId,
-        userId,
-        nameRu,
-        nameOriginal,
-        posterUrl,
-        year,
-        filmLength,
-        countries,
-        genres,
-        rating,
-        director
-    });
 
-    return res.status(201).json({ message: 'Фильм сохранён в список'});
+    return res.status(200).json(film);
 }
 
+
+const getUserFilmFlag = async (req, res, next) => {
+
+    const {kinopoiskId} = req.params;
+    const userId = req.user.id;
+
+     await getFilmOrFetch(kinopoiskId);
+
+     const [userFlags] = await UserFilms.findOrCreate({
+        where: { kinopoiskId, userId },
+        defaults: {
+            isWatched : false,
+            rating: 0,
+            favorite: false
+        }
+        });
+    if (!userFlags) {
+        next(new Error("Какие-то проблемы с получением или инициализацией флажков юзера"))
+    }
+
+    return res.status(200).json(userFlags)
+}
+
+const getUserFilmFlagsAll = async (req, res, next) => {
+
+    const {userId} = req.params;
+
+    const data = await UserFilms.findAll({where : {userId}})
+
+    if (!data) {
+        return next(new Error("Проблемы получить флаги пользователя"))
+    }
+
+    return res.status(200).json(data)
+}
 
 
 const getUserFilms = async (req, res, next) => {
-            const {userId} = req.params;
 
-            const checkFilm = await UserFilmList.findAll({where: {userId}})
+    const {userId} = req.params;
 
-            if (checkFilm.length === 0) {
-                next(new Error('Рецензий у пользователя не обнаружено'))
-            }
+    const userChainList = await UserFilms.findAll({where: {userId}})
 
-            return res.status(200).json(checkFilm);
+    if (userChainList.length === 0) {
+        return next(new Error('У пользователя нет добавленных фильмов'))
+    }
+
+    const kinopoiskIdList = userChainList.map(el => el.kinopoiskId).filter(Boolean)
+
+    const userFilmList = await Film.findAll({where: {kinopoiskId: kinopoiskIdList}})
+
+    const foundListId = userFilmList.map(film => film.kinopoiskId)
+
+    const missingFilmsId = kinopoiskIdList.filter(id => !foundListId.includes(id))
+
+    const missingFilmsData = await Promise.all(missingFilmsId.map(id => getFilmOrFetch(id)))
+
+    const fullUserFilmList = [...userFilmList, ...missingFilmsData]
+
+    return res.status(200).json(fullUserFilmList);
 }
 
-module.exports = {sendFilm, getUserFilms};
+module.exports = {updateFilmFlags, getUserFilms, getFilm, getUserFilmFlag, getUserFilmFlagsAll};

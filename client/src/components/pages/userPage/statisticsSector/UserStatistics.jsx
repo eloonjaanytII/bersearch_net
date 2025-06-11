@@ -62,7 +62,7 @@ const UserStatistics = ({userFilms}) => {
   
   const dataFilms = {}
   
-  const genres = userFilms.map(film => film.genres.map(g => JSON.parse(g))).flat()
+  const genres = userFilms.map(film => film.genres.map(g => g)).flat()
 
   genres.forEach(item => {
     const genre = item.genre;

@@ -13,6 +13,8 @@ const UserPage = () => {
 
   const { data: userFilms, isLoading: isFilmsLoading} = useGetUserFilmsQuery(paramsId);
 
+  console.log(userFilms)
+
   if (isUserLoading || isFilmsLoading || !userFilms ) return <div>is Loading...</div>
 
   const isOwner = String(paramsId) === String(currentUser?.userId);

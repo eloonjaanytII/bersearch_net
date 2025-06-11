@@ -16,15 +16,29 @@ export const filmsApi = createApi({
     sendFilms: builder.mutation({
       query: body => ({
         url: `/`,
-        method: "POST",
+        method: "PUT",
         body,
       })
     }),
 
-    getUserFilms: builder.query({  
-        query: (userId) => `/user-films/${userId}`
+    getFilm: builder.query({
+      query: (kinopoiskId) => `/film/${kinopoiskId}`
     }),
+
+    getUserFilms: builder.query({
+      query: (userId) => `/user-films/${userId}`
+    }),
+
+    getUserFilmFlag: builder.query({
+      query: (kinopoiskId) => `/film-flag/${kinopoiskId}`
+    }),
+
+    getUserFilmFlagsAll: builder.query({
+      query: (userId) => `/film-flags/${userId}`
+    })
+
+
   }),
 });
 
-export const {useSendFilmsMutation, useGetUserFilmsQuery} = filmsApi;
+export const {useSendFilmsMutation, useGetUserFilmsQuery, useGetFilmQuery, useGetUserFilmFlagQuery, useGetUserFilmFlagsAllQuery} = filmsApi;

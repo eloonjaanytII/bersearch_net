@@ -4,12 +4,12 @@ const generateAccessToken = require('../utils/generateToken');
 
 const createUser = async (req, res, next) => {
 
-    const {email, password, username} = req.validated;
+    const {email, password, username, gender, avatar} = req.validated;
 
     const candidate = await User.findOne({where: {username}} )
 
     if (candidate) {
-        next(new Error (JSON.stringify({status: 409, message: "Пользователь уже существует"})))
+        return next(new Error (JSON.stringify({status: 409, message: "Пользователь уже существует"})))
     }
 
     const salt = bcrypt.genSaltSync(7);
@@ -18,7 +18,9 @@ const createUser = async (req, res, next) => {
     const user = await User.create({
         email,
         password: hashPassword,
-        username
+        username,
+        gender,
+        avatar
     });
 
     const token = generateAccessToken(user.id);
@@ -33,7 +35,7 @@ const getUser = async (req, res, next) => {
     const validPassword = bcrypt.compareSync(password, user.password);
 
     if (!validPassword || !user) {
-        next(new Error(JSON.stringify({status: 400, message: 'Вы ввели некорректный юзернейм или пароль'})))
+        return next(new Error(JSON.stringify({status: 400, message: 'Вы ввели некорректный юзернейм или пароль'})))
     }
 
     const token = generateAccessToken(user.id)  
@@ -46,7 +48,7 @@ const getUserId = async (req, res, next) => {
     const user = await User.findByPk(req.user.id);
 
     if (!user) {
-        next(new Error(JSON.stringify({status: 404, message: 'Пользователь не найден'})))
+        return next(new Error(JSON.stringify({status: 404, message: 'Пользователь не найден'})))
     }
 
     return res.json({userId: user.id})

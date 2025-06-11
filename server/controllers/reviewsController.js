@@ -8,7 +8,7 @@ const createReview = async (req, res, next) => {
     const checkReview = await Review.findOne({where: {kinopoiskId, userId}})
 
     if (checkReview) {
-        next(new Error("Рецензия на фильм уже существует"))
+        return next(new Error("Рецензия на фильм уже существует"))
     }
     
     await Review.create({
@@ -27,7 +27,7 @@ const getUserReview = async (req, res, next) => {
 
     const checkReview = await Review.findAll({where: {userId}})
     if (checkReview.length === 0) {
-        next(new Error('Рецензий у пользователя не обнаружено'))
+        return next(new Error('Рецензий у пользователя не обнаружено'))
     }
 
     return res.status(200).json({reviews: checkReview});

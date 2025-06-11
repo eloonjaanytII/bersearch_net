@@ -1,11 +1,8 @@
-const {Actor} = require('./Actor');
-const {Director} = require('./Director');
 const {Film} = require('./Film');
 const {User} = require('./User');
 const {Review} = require('./Review');
 const {UserFilms} = require('./UserFilms');
-const {ActorsFilms} = require('./ActorsFilms');
-const {DirectorsFilms} = require('./DirectorsFilms');
+
 
 // Связь пользователя с его рецензиями
 User.hasMany(Review, {
@@ -32,43 +29,9 @@ Film.belongsToMany(User, {
   onDelete: 'CASCADE'
 })
 
-// Связь актёров с фильмами
-Actor.belongsToMany(Film, {
-  through: ActorsFilms,
-  foreignKey: 'staffId',
-  otherKey: 'kinopoiskId',
-  onDelete: 'CASCADE'
-})
-
-Film.belongsToMany(Actor, {
-  through: ActorsFilms,
-  foreignKey: 'kinopoiskId',
-  otherKey: 'staffId',
-  onDelete: 'CASCADE'
-})
-
-// Связь режиссёров с фильмами
-Director.belongsToMany(Film, {
-  through: DirectorsFilms,
-  foreignKey: 'staffId',
-  otherKey: 'kinopoiskId',
-  onDelete: 'CASCADE'
-})
-
-Film.belongsToMany(Director, {
-  through: DirectorsFilms,
-  foreignKey: 'kinopoiskId',
-  otherKey: 'staffId',
-  onDelete: 'CASCADE'
-})
-
 module.exports = {
-    Actor, 
-    Director,
     Film,
     User,
     Review,
     UserFilms,
-    ActorsFilms,
-    DirectorsFilms
 }

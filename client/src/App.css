@@ -4,6 +4,21 @@
 }
 
 @font-face {
+    font-family: "PlayfairDisplay";
+    src: url('./fonts/PlayfairDisplay-VariableFont_wght.ttf');
+}
+
+@font-face {
+    font-family: "SF-Regular";
+    src: url('./fonts/SF-Pro-Display-Regular.otf');
+}
+
+@font-face {
+    font-family: "SF-Semibold";
+    src: url('./fonts/SF-Pro-Display-Semibold.otf');
+}
+
+@font-face {
     font-family: "CormorantGaramond";
     src: url('./fonts/CormorantGaramond-VariableFont_wght.ttf');
 }
@@ -18,6 +33,29 @@
 .scrollbar-review {
   scrollbar-width: thin;
   scrollbar-color: rgb(72, 70, 70) white;
+}
+
+.button-film {
+  display: flex;
+  font-family: "SF-Regular";
+  align-items: center;
+  border-radius: 2rem;
+  height: 2.5rem;
+  padding: 1rem;
+  color: #fff;
+  background-color: #000000;
+}
+
+.button-film.active {
+  display: flex;
+  font-family: "SF-Regular";
+  align-items: center;
+  border-radius: 2rem;
+  height: 2.5rem;
+  padding: 1rem;
+  border: 0.1rem solid black;
+  color: black;
+  background-color: #fff;
 }
 
 /* для Chrome/Edge/Safari */
@@ -74,12 +112,16 @@
 
 @theme {
     --font-idiotherne: "SyneMono", 'sans-serif';
+    --font-filmName: "PlayfairDisplay", 'sans-serif';
+    --font-semibold: "SF-Semibold", 'sans-serif';
+    --font-regular: "SF-Regular", 'sans-serif';
 }
+
+
 
 html {
     scrollbar-width: none;
     font-family: "WDXL Lubrifont TC", sans-serif;
-    background-color: #f8f1e3 ;
 }
 
 .no-scrollbar {

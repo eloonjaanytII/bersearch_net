@@ -11,7 +11,7 @@ const SignInForm = ({handlerSubmit, loginError}) => {
 
 
   return (
-    <form onSubmit={handleSubmit(handlerSubmit)} className='flex flex-col gap-4 w-full text-2xl'> 
+    <form onSubmit={handleSubmit(handlerSubmit)} className='flex flex-col gap-4 w-[60%] m-auto text-2xl'> 
         <label>Параметры для входа:</label>
         <input className="input input-neutral w-full text-xl p-5"
             placeholder='username'

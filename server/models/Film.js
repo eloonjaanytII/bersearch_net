@@ -1,6 +1,5 @@
 const {DataTypes} = require('sequelize');
 const {sequelize} = require('../db.js');
-const kinopoisk = require('../instance/kinopoisk.js');
 
 const Film = sequelize.define(
   'Film',
@@ -9,18 +8,22 @@ const Film = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
       unique: true,
+      primaryKey: true,
     },
     nameRu: {
-      type: DataTypes.STRING
+      type: DataTypes.TEXT
     },
     nameEn: {
-      type: DataTypes.STRING
+      type: DataTypes.TEXT
     },
     nameOriginal: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     posterUrl: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
+    },
+    coverUrl: {
+      type: DataTypes.TEXT,
     },
     ratingKinopoisk: {
       type: DataTypes.FLOAT, 
@@ -32,13 +35,13 @@ const Film = sequelize.define(
         type: DataTypes.INTEGER , 
     },
     slogan: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
     description: {
-        type: DataTypes.STRING
+        type: DataTypes.TEXT
     },
     shortDescription: {
-        type: DataTypes.STRING
+        type: DataTypes.TEXT
     },
     countries: {
         type: DataTypes.JSONB
@@ -54,14 +57,3 @@ const Film = sequelize.define(
 
 module.exports = {Film};
 
-
-
-const getFilmDetail = async (id) => {
-    const response = await kinopoisk.get(`v2.2/films/${id}`)
-    return response.data
-}
-
-const getStaff = async (filmId) => {
-    const response = await kinopoisk.get('v1/staff', {params: {filmId}})
-    return response.data
-}

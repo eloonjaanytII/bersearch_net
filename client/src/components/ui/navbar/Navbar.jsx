@@ -9,14 +9,14 @@ const Navbar = () => {
 
   const navigate = useNavigate();
   const userId = localStorage.getItem('userId')
-  
+
   const handlerLogout = () => {
     localStorage.removeItem('token');
     navigate('/authorization/register');
   } 
 
   return (
-    <div className="navbar p-5 pb-0 pt-2 bg-amber-100 shadow-sm flex justify-between">
+    <div className="navbar p-5 pb-0 pt-2 flex justify-between">
         <NavbarLogo />
         <SearchInput mode = 'navbar'/>
         <ThemeController />
