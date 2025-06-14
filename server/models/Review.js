@@ -8,6 +8,10 @@ const Review = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    kinopoiskId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     content: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -16,24 +20,6 @@ const Review = sequelize.define(
         type: DataTypes.STRING,
         allowNull: false,
     },
-    kinopoiskId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    rating: {
-        type: DataTypes.INTEGER,
-        validate: { min: 0, max: 10 },
-    },
-    likes: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-    },
-    publishedAt: {
-        type: DataTypes.DATE,
-    },
-    editedAt: {
-        type: DataTypes.DATE,
-    }
   },
   {
     timestamps: true,

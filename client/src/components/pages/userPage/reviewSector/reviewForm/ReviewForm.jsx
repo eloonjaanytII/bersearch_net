@@ -2,7 +2,7 @@ import SearchInput from '../../../../ui/searchInput/SearchInput'
 
 const ReviewForm = ({content, title, setContent, setTitle, setKinoId, handlerSubmit }) => {
   return (
-    <form onSubmit={handlerSubmit}>
+    <form onSubmit={handlerSubmit} className='mb-4'>
             <SearchInput mode='review' setKinoId={setKinoId}/>
             <input 
                 placeholder='Название рецензии'

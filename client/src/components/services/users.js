@@ -17,7 +17,11 @@ export const usersApi = createApi({
       query: () => `/users-list`
     }),
 
+    userData: builder.query({
+      query: () => `/`
+    }),
+
   }),
 });
 
-export const {useUsersListQuery} = usersApi;
+export const {useUsersListQuery, useUserDataQuery} = usersApi;

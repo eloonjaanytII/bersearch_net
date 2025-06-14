@@ -1,12 +1,11 @@
 const {User} = require('../models/index');
 
-
-const usersList = async (req, res, next) => {
+const getUsersList = async (req, res, next) => {
 
     const {count, rows} = await User.findAndCountAll();
 
     if (!rows || rows.length === 0 ) {
-        next(new Error("Список пользователей пуст"))
+        return next(new Error("Список пользователей пуст"))
     }
 
     const usersList = rows.map(user => ({
@@ -18,4 +17,18 @@ const usersList = async (req, res, next) => {
     return res.json({usersList, countUsers : count, message: 'Список пользователей успешно отправлен'})
 }
 
-module.exports = {usersList}
+const getUserData = async (req, res, next) => {
+
+    const userId = req.user.id;
+
+    const data = await User.findOne({where : {id : userId}})
+
+    if (!data) {
+        next(new Error("Какие-то ошибки с выдачей данных юзера"))
+    }
+
+    res.status(200).json(data)
+
+}
+
+module.exports = {getUsersList, getUserData}
