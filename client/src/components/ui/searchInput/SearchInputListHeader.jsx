@@ -15,7 +15,7 @@ const SearchInputListHeader = ({results, setKeyword, setResults}) => {
               >
                 <div className="flex justify-between items-center">
                   {item.nameRu ? `${item.nameRu}, ${item.year}` : 'Совпадений не найдено'}
-                  <img alt="empty" src = {item.posterUrlPreview} className="w-8 h-8 rounded-full border border-accent"/>
+                  <img alt="empty" src = {item.posterUrlPreview} className="w-8 h-8 rounded-full border border-accent hidden md:block"/>
                 </div>
               </Link>
             </li>)

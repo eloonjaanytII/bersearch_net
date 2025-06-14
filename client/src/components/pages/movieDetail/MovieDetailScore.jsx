@@ -1,7 +1,7 @@
 import { useState, useEffect} from 'react';
 import { useSendFilmsMutation} from '../../services/films';
 
-const ScoreMovie = ({ rating = 0, isSuccessFlag, filmId }) => {
+const MovieDetailScore = ({ rating = 0, isSuccessFlag, filmId }) => {
 
   const [send] = useSendFilmsMutation();
 
@@ -46,4 +46,4 @@ const ScoreMovie = ({ rating = 0, isSuccessFlag, filmId }) => {
   );
 };
 
-export default ScoreMovie;
+export default MovieDetailScore;

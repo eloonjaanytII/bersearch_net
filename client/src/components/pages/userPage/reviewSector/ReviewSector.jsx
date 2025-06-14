@@ -7,62 +7,66 @@ import {saveTabChoice} from "../../../features/userPageSlice"
 import ReviewForm from './reviewForm/ReviewForm';
 import ReviewList from './reviewList/ReviewList';
 import WatchedList from './watchedList/WatchedList';
+import FavoriteList from './favoriteList/FavoriteList';
+import ScoreList from './scoreList/ScoreList';
 
 const ReviewSector = ({isOwner, userId, userFilms}) => {
 
     const dispatch = useDispatch();
     const tabChoice = useSelector(state => state.userPageSlice.tabChoice);
 
-    console.log(tabChoice)
+    const {data: dataReview,
+           isLoading: isLoadingReview} = useGetUserReviewQuery(userId, {skip: !userId});
 
-    const {data, error: errorGetted, isLoading: isLoadingGetted} = useGetUserReviewQuery(userId, {skip: !userId});
     const reviewForm = useReviewSector(userId);
-
-    if (reviewForm.isLoading || reviewForm.isLoadingGetted) return <div>is Loading...</div>
+      
+    if (reviewForm.isLoading || isLoadingReview) return <div>is Loading...</div>
   return (
-    <div className="w-1/2 pl-4 pr-4">
+    <div className="pl-4 pr-4">
       <div className="tabs tabs-lift flex justify-center">
         <input type="radio" 
                name="my_tabs_3" 
-               className="tab" 
+               className="tab text-xs md:text-xl" 
                aria-label="Рецензии" 
                checked={tabChoice === "review"}
                onChange={() => dispatch(saveTabChoice("review"))}/>
 
           <div className={`tab-content border-base-300 p-6 ${tabChoice === "review" ? 'active' : ''}`}>
               {isOwner && <ReviewForm {...reviewForm}/>}
-              <ReviewList data={data}/>
+              <ReviewList data={dataReview} isOwner={isOwner}/>
           </div>
 
         <input type="radio" 
                name="my_tabs_3" 
-               className="tab" 
+               className="tab text-xs md:text-xl" 
                aria-label="Оценки"
                checked={tabChoice === "scores"}
                onChange={() => dispatch(saveTabChoice("scores"))}/>
 
         <div className={`tab-content border-base-300 p-6 ${tabChoice === "scores" ? 'active' : ''}`}>
-          conent 2
+          {userFilms.message ? <div className="error-message">{userFilms.message}</div> : <ScoreList userId={userId}/>}
         </div>
 
         <input type="radio" 
                name="my_tabs_3" 
-               className="tab" 
+               className="tab text-xs md:text-xl" 
                aria-label="Просмотренное" 
                checked={tabChoice === "watched"}
                onChange={() => dispatch(saveTabChoice("watched"))}/>
 
         <div className={`tab-content border-base-300 p-6 ${tabChoice === "watched" ? 'active' : ''}`}>
-          <WatchedList userFilms={userFilms}/>
+          {userFilms.message ? <div className="error-message">{userFilms.message}</div> : <WatchedList userFilms={userFilms}/>}
         </div>
 
         <input type="radio" 
                name="my_tabs_3" 
-               className="tab" 
-               aria-label="Друзья" 
-               checked={tabChoice === "friends"}
-               onChange={() => dispatch(saveTabChoice("friends"))}/>
-        <div className={`tab-content border-base-300 p-6 ${tabChoice === "friends" ? 'active' : ''}`}>Tab content 4</div>
+               className="tab text-xs md:text-xl" 
+               aria-label="Избранное" 
+               checked={tabChoice === "favorite"}
+               onChange={() => dispatch(saveTabChoice("favorite"))}/>
+        <div className={`tab-content border-base-300 p-6 ${tabChoice === "favorite" ? 'active' : ''}`}>
+          <FavoriteList userId={userId}/>
+        </div>
 
       </div>
 

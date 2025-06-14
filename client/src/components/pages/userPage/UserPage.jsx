@@ -4,27 +4,30 @@ import { useCurrentUserQuery } from '../../services/auth';
 import { useGetUserFilmsQuery } from '../../services/films';
 import UserStatistics from './statisticsSector/UserStatistics';
 import InfoSector from './InfoSector/infoSector';
+import { useUserDataQuery } from '../../services/users';
 
 const UserPage = () => {
 
   const {id: paramsId} = useParams();
 
   const { data: currentUser, isLoading: isUserLoading} = useCurrentUserQuery();
-
+  const { data: userData, isLoading: isUserDataLoading} = useUserDataQuery();
   const { data: userFilms, isLoading: isFilmsLoading} = useGetUserFilmsQuery(paramsId);
 
-  console.log(userFilms)
-
-  if (isUserLoading || isFilmsLoading || !userFilms ) return <div>is Loading...</div>
-
+  if (isUserLoading || isFilmsLoading || !userFilms || isUserDataLoading || !userData) return <div>is Loading...</div>
+  
   const isOwner = String(paramsId) === String(currentUser?.userId);
 
   return (
   
-    <div className="flex min-h-[80vh]">
-      <div className ="w-1/2 border-r-2 flex flex-col p-4 gap-4">
-        <InfoSector />
-        <UserStatistics userFilms={userFilms} />
+    <div className="grid grid-cols-1 md:grid-cols-2 min-h-[80vh]">
+      <div className ="md:border-r-2 flex flex-col p-4 gap-2 md:gap-10">
+        <InfoSector userData = {userData}/>
+        {userFilms.message ? (
+          <div className="error-message">{userFilms.message}</div>
+        ) : (
+          <UserStatistics userFilms={userFilms} />
+        )}
       </div>
       <ReviewSector isOwner={isOwner} userId = {paramsId} userFilms={userFilms}/>
     </div>

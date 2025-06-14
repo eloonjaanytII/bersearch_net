@@ -33,12 +33,22 @@ export const filmsApi = createApi({
       query: (kinopoiskId) => `/film-flag/${kinopoiskId}`
     }),
 
-    getUserFilmFlagsAll: builder.query({
-      query: (userId) => `/film-flags/${userId}`
+    getUserFilmWithScores: builder.query({
+      query: (userId) => `/film-score/${userId}`
+    }),
+
+    getUserFilmWithFavorite: builder.query({
+      query: (userId) => `/film-favorite/${userId}`
     })
 
 
   }),
 });
 
-export const {useSendFilmsMutation, useGetUserFilmsQuery, useGetFilmQuery, useGetUserFilmFlagQuery, useGetUserFilmFlagsAllQuery} = filmsApi;
+export const {useSendFilmsMutation, 
+              useGetUserFilmsQuery, 
+              useGetFilmQuery, 
+              useGetUserFilmFlagQuery, 
+              useGetUserFilmWithFavoriteQuery,
+              useGetUserFilmWithScoresQuery,
+            } = filmsApi;

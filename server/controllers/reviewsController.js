@@ -26,11 +26,13 @@ const getUserReview = async (req, res, next) => {
     const {userId} = req.params;
 
     const checkReview = await Review.findAll({where: {userId}})
-    if (checkReview.length === 0) {
-        return next(new Error('Рецензий у пользователя не обнаружено'))
+
+    if (!checkReview || checkReview.length === 0) {
+        return res.status(200).json({reviews: []});
     }
 
     return res.status(200).json({reviews: checkReview});
+    
 }
 
 module.exports = {createReview, getUserReview};

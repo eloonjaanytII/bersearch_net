@@ -20,9 +20,6 @@ const Navbar = () => {
         <NavbarLogo />
         <SearchInput mode = 'navbar'/>
         <ThemeController />
-        {/* <Link to="/global-map">
-          <img src="/icons-map.gif" alt='map'/>
-        </Link> */}
         <NavbarUserIcon {...{userId, handlerLogout}}/>
     </div>
   )

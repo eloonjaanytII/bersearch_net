@@ -1,15 +1,10 @@
-import React, { useEffect } from 'react'
 import useMovieQuery from '../../hooks/useMovieQuery'
 import BearCarousel, {BearSlideImage} from 'bear-react-carousel';
 import { Link, Outlet } from 'react-router-dom';
 import ErrorMessage from '../../ui/errorMessage/ErrorMessage';
-import { useDispatch } from 'react-redux';
-import { changeTitle } from '../../features/navbarTitleSlice';
 
 const Movies = () => {
   
-  const dispatch = useDispatch();
-
   const {isLoading,
          hasError,
          responsePopular,
@@ -17,27 +12,17 @@ const Movies = () => {
          responseFilms,
          responseSerial,
          responseCartoons} = useMovieQuery();
-  
-  useEffect(() => {
-      dispatch(changeTitle("Карусель фильмов"))
-  
-      return () => {
-        dispatch(changeTitle(''))
-      }
-    }, [dispatch]);
-
-
 
   const sequelizeMovies = data => {
+
     if (!data) return <div>Нет данных</div>
     return data.map(row => (
       <Link key={row.kinopoiskId} to={`/movies/${row.kinopoiskId}`}>
-        <BearSlideImage imageUrl={row.posterUrl}/>
+        <BearSlideImage imageUrl={row.posterUrl} />
       </Link>
     )
     );
   }
-
   if (isLoading) return <div>Загрузка...</div>;
   if (hasError) return <ErrorMessage />;
 
@@ -72,8 +57,8 @@ const Movies = () => {
   return (
     <div className='m-auto max-w-3xl flex flex-col gap-y-2'>
       {carouselArr.map(item => (
-        <div className='flex flex-col items-center gap-y-2' key = {item.title}>
-          <h1>{item.title}</h1>
+        <div className='flex flex-col items-center gap-y-6' key = {item.title}>
+          <h1 className='text-3xl'>{item.title}</h1>
           <BearCarousel
             slidesPerView = {1}
             slidesPerGroup={1}
@@ -81,7 +66,6 @@ const Movies = () => {
             isEnableLoop
             isEnableNavButton
             spaceBetween = {5}
-            height={{ widthRatio: 21, heightRatio: 6 }}
             breakpoints= {{
               768: {
                 slidesPerView: 5
@@ -89,6 +73,7 @@ const Movies = () => {
             }
             }
             data={item.data}
+            className='hover:scale-110 transition-transform duration-500 mb-2'
           />
         </div>
       )

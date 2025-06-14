@@ -42,9 +42,9 @@ const Registration = () => {
   }
 
   return (
-    <div className='flex min-h-screen w-full'>
+    <div className='flex min-h-screen w-full '>
       <PictureRegistration />
-      <div className='w-1/2 flex flex-col justify-center items-center'>
+      <div className='md:w-1/2 w-full flex flex-col justify-center items-center'>
         <div className='w-[90%] m-auto'>
           {step !== 1 &&
           <ToggleRegistration {...{mode, setMode}}/>
