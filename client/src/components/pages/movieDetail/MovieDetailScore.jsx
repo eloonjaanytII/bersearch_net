@@ -1,18 +1,21 @@
 import { useState, useEffect} from 'react';
-import { useSendFilmsMutation} from '../../services/films';
+import { useGetUserFilmFlagQuery, useSendFilmsMutation} from '../../services/films';
 
-const MovieDetailScore = ({ rating = 0, isSuccessFlag, filmId }) => {
+const MovieDetailScore = ({filmId}) => {
 
   const [send] = useSendFilmsMutation();
+  const { data : dataFlag, isSuccess: isSuccessFlag } = useGetUserFilmFlagQuery(filmId);
 
   const [rate, setRate] = useState(0);
 
+  console.log(dataFlag)
+
   useEffect(() => {
-    if (isSuccessFlag && rating != null) {
-      setRate(rating)
+    if (isSuccessFlag && dataFlag.rating != null) {
+      setRate(dataFlag.rating)
     }
 
-  }, [isSuccessFlag, rating])
+  }, [isSuccessFlag, dataFlag.rating])
 
   const setRating = async (value) => {
     setRate(value);
@@ -35,7 +38,7 @@ const MovieDetailScore = ({ rating = 0, isSuccessFlag, filmId }) => {
           <input
             key={i}
             type="radio"
-            className={`mask mask-star-2 ${isLeftHalf ? 'mask-half-1' : 'mask-half-2'} bg-[#000000]`}
+            className={`mask mask-star-2 ${isLeftHalf ? 'mask-half-1' : 'mask-half-2'} bg-neutral-content`}
             value={value}
             checked={rate === value}
             onChange={() => setRating(value)}

@@ -4,17 +4,18 @@ import ReadOnlyRating from './ReadOnlyRating'
 const ScoreFilm = ({nameRu, rating, posterUrl, idx}) => {
 
   const getRatingColor = (rating) => {
-    if (rating > 8) return 'bg-green-100';
-    if (rating > 4) return 'bg-yellow-100';
-    if (rating < 4) return 'bg-red-100';
+    if (rating > 8) return 'bg-green-400';
+    if (rating > 4) return 'bg-orange-400';
+    if (rating < 4) return 'bg-red-400';
     return 'bg-white';
 };
 
   return (
     <div className={`
-    w-[100%] h-15 flex justify-between items-center 
-    border-1 border-black rounded-md pl-4 
+    w-[100%] min-h-15 grid grid-cols-[10%_80%_10%] items-center justify-center
+    border-1 border-black rounded-md pl-4 pr-2
     ${getRatingColor(rating)}
+    text-black
     hover:bg-accent hover:scale-99 
     transition-transform duration-200`}>
         <div>
@@ -28,8 +29,10 @@ const ScoreFilm = ({nameRu, rating, posterUrl, idx}) => {
                 <ReadOnlyRating rating={rating} />
             </div>
         </div>
-        
-        <img src={posterUrl} alt="film" className='max-h-[100%] w-10'/>
+        <div className='h-15 w-10 p-1 flex justify-end md:ml-5'>
+          <img src={posterUrl} alt="film" className='h-full w-full object-cover rounded-sm'/>
+        </div>
+
     </div>
   )
 }
