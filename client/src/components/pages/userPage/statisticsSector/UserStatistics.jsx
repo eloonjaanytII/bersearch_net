@@ -1,5 +1,6 @@
 import {useState } from 'react';
 import { PieChart, Pie, Sector, ResponsiveContainer, Cell } from 'recharts';
+import { useMediaQuery } from 'react-responsive'
 
 const COLORS = [
   '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
@@ -8,7 +9,6 @@ const COLORS = [
   '#FFCC33', '#CC33FF', '#33FF66', '#FF3366', '#3366FF'
 ]; 
 
-const colorTheme = localStorage.getItem("isDark") === "true"
 
 
 const renderActiveShape = (props) => {
@@ -48,8 +48,8 @@ const renderActiveShape = (props) => {
         fill={fill}
       />
       <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
-      <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-      <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill={!colorTheme ? "white" : "black"} className='text-2xl'>{` ${payload.name}`}</text>
+      <circle cx={ex} cy={ey} r={1} fill={fill} stroke="none" />
+      <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill={fill} className='text-xl'>{` ${payload.name}`}</text>
       <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
         {`${(percent * 100).toFixed(2)}%`}
       </text>
@@ -59,10 +59,10 @@ const renderActiveShape = (props) => {
 
 const UserStatistics = ({userFilms}) => {
 
+
   const [activeIndex, setActiveIndex] = useState(0);
   
   const dataFilms = {}
-  console.log(userFilms)
   const genres = userFilms.map(film => film.genres.map(g => g)).flat()
 
   genres.forEach(item => {
@@ -76,11 +76,13 @@ const UserStatistics = ({userFilms}) => {
     setActiveIndex(index);
   };
 
+  const isMobile = useMediaQuery({ maxWidth: 500 })
+  const isTablet = useMediaQuery({ minWidth: 501})
+
   return (
-    <div className=" h-[100%] w-[100%] flex flex-col justify-centet items-center p-2 text-center">
+    <div className=" h-[50vh] w-[100%] flex flex-col justify-center items-center p-2 text-center">
         <p className="text-2xl mb-2">Распределение просмотренных фильмов по жанрам:</p>
-        <div style={{ width: '100%', height: '100%' /* или vh, px */ }}>
-        <ResponsiveContainer width="100%" height="100%" >
+        <ResponsiveContainer width="100%" height="100%" className="flex items-start ">
           <PieChart >
             <Pie
               activeIndex={activeIndex}
@@ -88,8 +90,8 @@ const UserStatistics = ({userFilms}) => {
               data={arrayFilm}
               cx="50%"
               cy="50%"
-              innerRadius={90}
-              outerRadius={110}
+              innerRadius={isMobile ? 40 : isTablet ? 60 : 80}
+              outerRadius={isMobile ? 60 : isTablet ? 80 : 100}
               fill="#7B1212"
               dataKey="value"
               onMouseEnter={handlePieEnter}
@@ -101,7 +103,6 @@ const UserStatistics = ({userFilms}) => {
           </PieChart>
         </ResponsiveContainer>
         </div>
-    </div>
   );
 };
 

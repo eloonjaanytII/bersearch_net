@@ -5,10 +5,10 @@ const authMiddleware = require('../middleware/authMiddleware');
 const validate = require('../middleware/validate');
 const { loginSchema, registerSchema } = require('../schemas/authSchema');
 const ha = require('express-async-handler')
-
+const {loginLimiter} = require('../utils/rateLimit')
 
 router.post('/registration/sign-up', validate(registerSchema), ha(createUser));
-router.post('/registration/sign-in', validate(loginSchema), ha(getUser))
+router.post('/registration/sign-in', loginLimiter, validate(loginSchema), ha(getUser))
 router.get('/me', authMiddleware, ha(getUserId))
 
 

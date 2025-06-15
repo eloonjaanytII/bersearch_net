@@ -1,15 +1,17 @@
 const {User} = require('../models/index');
 const bcrypt = require("bcryptjs");
 const generateAccessToken = require('../utils/generateToken');
+const createError = require('http-errors');
 
 const createUser = async (req, res, next) => {
 
     const {email, password, username, gender, avatar} = req.validated;
 
-    const candidate = await User.findOne({where: {username}} )
+    const candidateUsername = await User.findOne({where: {username}} )
+    const candidateEmail = await User.findOne({where: {email}} )
 
-    if (candidate) {
-        return next(new Error (JSON.stringify({status: 409, message: "Пользователь уже существует"})))
+    if (candidateUsername || candidateEmail) {
+        return next(createError(409,  "Пользователь уже существует"));
     }
 
     const salt = bcrypt.genSaltSync(7);

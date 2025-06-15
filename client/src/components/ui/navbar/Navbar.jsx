@@ -16,7 +16,7 @@ const Navbar = () => {
   } 
 
   return (
-    <div className="navbar p-5 pb-0 pt-2 flex justify-between">
+    <div className="navbar p-5 pb-0 pt-2 flex justify-between border-b-2">
         <NavbarLogo />
         <SearchInput mode = 'navbar'/>
         <ThemeController />

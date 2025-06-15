@@ -10,10 +10,9 @@ const NavbarLogo = () => {
             <p className="font-idiotherne tracking-tighter text-3xl p-2 mt-2.5 text-[#751616] hidden md:block ">Idiotherne</p>
           </div>
         </div>
-          
         <ul 
             tabIndex={0} 
-            className="dropdown-content menu bg-base-100 rounded-box z-[10] w-52 md:w[110%] p-2 shadow-sm">
+            className="dropdown-content menu bg-base-100 rounded-box z-[10] w-52 md:w[110%] p-2 shadow-sm border-2 border-accent">
           {TOP_LISTS.map(item => (
                         <li key = {item.title} >
                             <Link to={`/${item.url}`} onClick={(e) => {e.currentTarget.blur()}} className='text-lg'>

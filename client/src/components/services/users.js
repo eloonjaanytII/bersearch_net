@@ -18,10 +18,18 @@ export const usersApi = createApi({
     }),
 
     userData: builder.query({
-      query: () => `/`
+      query: (paramsId) => `/user/${paramsId}`
     }),
 
+    changeStatus: builder.mutation({
+      query: status => ({
+        url: `/status`,
+        method: "PUT",
+        body: status
+      })
+    }),
+    
   }),
 });
 
-export const {useUsersListQuery, useUserDataQuery} = usersApi;
+export const {useUsersListQuery, useUserDataQuery, useChangeStatusMutation} = usersApi;
